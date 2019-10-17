@@ -1,4 +1,4 @@
 module.exports = {
-    mongoURL: "mongodb://localhost",
+    mongoURL: "mongodb://localhost/test",
     secret: "mystrongsecret"
   };

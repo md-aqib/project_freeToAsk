@@ -6,11 +6,11 @@ const myURL = require('./config/myURL')
 
 
 
-const app = epress()
+const app = express()
 
 //Middleware for bodyparser
-app.use(bodyparser.urlencoded({ extended: false }));
-app.use(bodyparser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 //mongoDB configuration
 const db = require("./config/myURL").mongoURL; 
