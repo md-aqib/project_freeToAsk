@@ -53,4 +53,4 @@ const register = new Schema({
     }
 })
 
-moduele.exports = ('register', register)
+module.exports = ('register', register)
