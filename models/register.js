@@ -7,7 +7,8 @@ const Schema = mongoose.Schema
  * 0: User registered
  * 1: email verified
  * 2: phone verified
- * 3:Profile created
+ * 3: Profile created
+ * 4: Profile updated
  **/
 
 
