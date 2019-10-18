@@ -9,28 +9,38 @@ var generateOTP = () => {
 }
 
 module.exports = (req, res) => {
-
-    if(!req.body.name || !req.body.email || !req.body.userName || !req.body.phone || !req.body.password){
-        res.json({
-            success: false,
-            msg: 'Please enter all details'
-        })
-    }else{
-        new dbRegister({
-            name: req.body.name,
-            email: req.body.email,
-            userName: req.body.userName,
-            phone: req.body.phone,
-            password: req.body.password
-
-        })
-        .save()
-        .then(userRegistered => {
+    dbRegister.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}, {userName: req.body.userName}]})
+    .then(data => {
+        if(data){
             res.json({
                 success: true,
-                msg: 'User Registered'
+                msg: 'User already registered'
             })
-        })
-        .catch(err => console.log(err))
-    }
+        }else{
+            if(!req.body.name || !req.body.email || !req.body.userName || !req.body.phone || !req.body.password){
+                res.json({
+                    success: false,
+                    msg: 'Please enter all details'
+                })
+            }else{
+                new dbRegister({
+                    name: req.body.name,
+                    email: req.body.email,
+                    userName: req.body.userName,
+                    phone: req.body.phone,
+                    password: req.body.password
+        
+                })
+                .save()
+                .then(userRegistered => {
+                    res.json({
+                        success: true,
+                        msg: 'User Registered Successfully'
+                    })
+                })
+                .catch(err => console.log(err))
+            }
+        }
+    })
+    .catch(err => console.log(err))
 }
