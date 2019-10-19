@@ -43,7 +43,7 @@ const register = new Schema({
     },
     emailVereify: {
         otp: Number,
-        Verified: Boolean,
+        verified: Boolean,
         verifiedAt: Date
     },
     status: Number,

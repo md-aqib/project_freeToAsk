@@ -1,4 +1,3 @@
-const express = require('express')
 const dbRegister = require('../models/register')
 dbLogin = require('../models/userLogin')
 
@@ -28,7 +27,16 @@ module.exports = (req, res) => {
                     email: req.body.email,
                     userName: req.body.userName,
                     phone: req.body.phone,
-                    password: req.body.password
+                    password: req.body.password,
+                    status: 0,
+                    phoneVerify: {
+                        otp: generateOTP(),
+                        verified: false,
+                    },
+                    emailVerify: {
+                        otp: generateOTP(),
+                        verified: false
+                    }
         
                 })
                 .save()

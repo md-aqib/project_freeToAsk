@@ -22,6 +22,9 @@ mongoose
   .then(() => console.log("MongoDB connected successfully"))
   .catch(err => console.log(err));
 
+var secret = myURL.secret
+app.set('secretKey', secret)
+
 
 
 

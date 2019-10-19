@@ -47,6 +47,7 @@ const userLogin = new Schema({
         verifiedAt: Date
     },
     status: Number,
+    lastLogin: [Date],
     token: String,
     createdAt: {
         type: Date,
