@@ -2,7 +2,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
-const myURL = require('./config/myURL') 
+const myURL = require('./config/myURL')
+const routes = require('./routes/routes')
+
 
 
 
@@ -25,9 +27,11 @@ mongoose
 var secret = myURL.secret
 app.set('secretKey', secret)
 
+app.use('/api', routes)
 
 
 
 
-const port = process.env.PORT || 3000;
+
+const port = process.env.PORT || 6000;
 app.listen(port, () => console.log(`App is running at ${port}`));

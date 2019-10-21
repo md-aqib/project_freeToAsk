@@ -1,5 +1,5 @@
 const dbRegister = require('../models/register')
-dbLogin = require('../models/userLogin')
+const dbLogin = require('../models/userLogin')
 
 
 //generate otp
@@ -8,7 +8,7 @@ var generateOTP = () => {
 }
 
 module.exports = (req, res) => {
-    dbRegister.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}, {userName: req.body.userName}]})
+    dbRegister.findOne({email: req.body.email})
     .then(data => {
         if(data){
             res.json({
@@ -29,14 +29,14 @@ module.exports = (req, res) => {
                     phone: req.body.phone,
                     password: req.body.password,
                     status: 0,
-                    phoneVerify: {
-                        otp: generateOTP(),
-                        verified: false,
-                    },
-                    emailVerify: {
-                        otp: generateOTP(),
-                        verified: false
-                    }
+                    // phoneVerify: {
+                    //     otp: generateOTP(),
+                    //     verified: false,
+                    // },
+                    // emailVerify: {
+                    //     otp: generateOTP(),
+                    //     verified: false
+                    // }
         
                 })
                 .save()
