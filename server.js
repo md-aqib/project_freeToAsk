@@ -19,8 +19,10 @@ const db = require("./config/myURL").mongoURL;
 
 
 //Attempt to connect to database
+
+mongoOptions = { useNewUrlParser: true, dbName: 'project_stack', autoIndex: false, useUnifiedTopology: true}
 mongoose
-  .connect(db)
+  .connect(db, mongoOptions)
   .then(() => console.log("MongoDB connected successfully"))
   .catch(err => console.log(err));
 

@@ -29,4 +29,4 @@ const profile = new Schema({
     status: Number
 })
 
-module.exports = ('profile', profile)
+module.exports = mongoose.model('profile', profile)

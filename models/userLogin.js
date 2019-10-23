@@ -57,4 +57,4 @@ const userLogin = new Schema({
 
 })
 
-module.exports = ('userLogin', userLogin)
+module.exports = mongoose.model('userLogin', userLogin)

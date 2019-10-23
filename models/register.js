@@ -54,4 +54,4 @@ const register = new Schema({
     }
 })
 
-module.exports = ('register', register)
+module.exports = mongoose.model('register', register)

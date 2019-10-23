@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const tokenVerify = require('./tokenVerify')
 
 
 const register = require('./register')
