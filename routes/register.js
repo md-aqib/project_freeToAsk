@@ -1,5 +1,6 @@
 const dbRegister = require('../models/register')
 const dbLogin = require('../models/userLogin')
+const mailer = require('./emailandsmsmodule/nodemailer')
 
 
 //generate otp
@@ -33,18 +34,27 @@ module.exports = (req, res) => {
                     //     otp: generateOTP(),
                     //     verified: false,
                     // },
-                    // emailVerify: {
-                    //     otp: generateOTP(),
-                    //     verified: false
-                    // }
+                    emailVerify: {
+                        otp: generateOTP(),
+                        verified: false
+                    }
         
                 })
                 .save()
                 .then(userRegistered => {
-                    res.json({
-                        success: true,
-                        msg: 'User Registered Successfully'
-                    })
+                    if(userRegistered){
+                        mailer.sendMails(userRegistered.email, 'email verification', userRegistered.emailVerify.otp.toString())
+                        res.json({
+                            success: true,
+                            msg: 'please verify email'
+                        })
+                    }else{
+                        res.json({
+                            success: false,
+                            msg: 'something went wrong'
+                        })
+                    }
+                    
                 })
                 .catch(err => console.log(err))
             }

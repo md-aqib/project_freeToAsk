@@ -41,7 +41,7 @@ const register = new Schema({
         verified: Boolean,
         verifiedAt: Date
     },
-    emailVereify: {
+    emailVerify: {
         otp: Number,
         verified: Boolean,
         verifiedAt: Date
