@@ -1,6 +1,6 @@
 const dbRegister = require('../models/register')
-const dbLogin = require('../models/userLogin')
 const mailer = require('./emailandsmsmodule/nodemailer')
+const jwt = require('jsonwebtoken')
 
 
 //generate otp
@@ -42,11 +42,14 @@ module.exports = (req, res) => {
                 })
                 .save()
                 .then(userRegistered => {
+                    let msg = "Your otp for email verification is :- "
                     if(userRegistered){
-                        mailer.sendMails(userRegistered.email, 'email verification', userRegistered.emailVerify.otp.toString())
+                        let token = jwt.sign({ email: req.body.email, phone: req.body.phone }, req.app.get("secretKey"))
+                        mailer.sendMails(userRegistered.email, msg, userRegistered.emailVerify.otp.toString())
                         res.json({
                             success: true,
-                            msg: 'please verify email'
+                            msg: 'please verify email',
+                            token: token
                         })
                     }else{
                         res.json({
@@ -56,7 +59,12 @@ module.exports = (req, res) => {
                     }
                     
                 })
-                .catch(err => console.log(err))
+                .catch(err =>
+                    res.json({
+                        success: false,
+                        msg: 'server error',
+                        err: err
+                    }))
             }
         }
     })

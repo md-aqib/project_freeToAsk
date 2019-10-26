@@ -15,7 +15,7 @@ exports.sendMails = (email, subject, msg) => {
         });
         let message = {
             text: "",
-            from: "Shippigo <no-reply@shippigo.com>",
+            from: "Aqib <no-reply>",
             to: email,
             subject: subject,
             html: msg
