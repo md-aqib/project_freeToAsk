@@ -7,6 +7,9 @@ const tokenVerify = require('./tokenVerify')
 const register = require('./register')
 router.post('/register', register)
 
+const resend = require('./resend')
+router.post('/resend', tokenVerify, resend)
+
 const emailVerify = require('./emailVerify')
 router.post('/emailVerify', tokenVerify, emailVerify)
 

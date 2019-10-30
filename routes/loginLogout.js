@@ -62,7 +62,7 @@ exports.logout = (req, res) =>{
     .catch(err => {
         res.json({
             success: false,
-            msg: 'Server Error',
+            msg: 'Something went wrong',
             err: err
         })
     })
