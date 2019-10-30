@@ -1,13 +1,12 @@
 const dbLogin = require('../models/userLogin')
 const dbRegister = require('../models/register')
-const jwt = require('jsonwebtoken')
+var jwt = require('jsonwebtoken')
 
 
 
 exports.login = (req, res) => {
-    dbRegister.findOne({email: req.body.email})
+    dbRegister.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}, {userName: req.body.userName}]})
     .then(data => {
-        console.log(data)
         if(!data || data == null){
             res.json({
                 success: false,

@@ -3,6 +3,9 @@ const Schema = mongoose.Schema
 
 const question = new Schema({
 
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+    },
     textone: {
         type: String,
         required: true
@@ -17,14 +20,14 @@ const question = new Schema({
     upvotes: [
         {
             user: {
-                type: Schema.Types.ObjectId
+                type: mongoose.Schema.Types.ObjectId
             }
         }
     ],
     answers: [
         {
             user: {
-                type: Schema.Types.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
             },
             text: {
                 type: String,
