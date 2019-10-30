@@ -1,7 +1,7 @@
 dbRegister = require('../models/register')
 dbLogin = require('../models/userLogin')
 dbProfile = require('../models/profile')
-nodeMailer = require('./emailandsmsmodule/nodemailer')
+nodeMailer = require('./emailSmsModule/nodemailer')
 
 
 module.exports = (req, res) => {
@@ -36,12 +36,12 @@ module.exports = (req, res) => {
                         email: registeredData.email,
                         userName: registeredData.userName,
                         password: registeredData.password,
-                        status: 1,
+                        status: 2,
                         createdAt: new Date()
                     })
                     .save()
                     .then(profileData => {
-                        console.log('profileData', profileData)
+                        console.log('profileData Saved')
                     })
                     .catch(err => console.log(err))
                 })
@@ -59,12 +59,17 @@ module.exports = (req, res) => {
                             msg: 'something went wrong',
                             err : err
                         }))
+            }else{
+                res.json({
+                    success: false,
+                    msg: 'Incorrect OTP'
+                })
             }
         })
         .catch(err =>
             res.json({
                 success: false,
-                msg: 'Incorrect Otp'
+                msg: 'Server Error'
             }) )
     }
 }

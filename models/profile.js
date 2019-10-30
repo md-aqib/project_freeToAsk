@@ -6,9 +6,8 @@ const Schema = mongoose.Schema
  * Status
  * 0: User registered
  * 1: email verified
- * 2: phone verified
- * 3: Profile created
- * 4: Profile Updated
+ * 2: Profile created
+ * 3: Profile Updated
  **/
 
 

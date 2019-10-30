@@ -29,6 +29,7 @@ mongoose
 var secret = myURL.secret
 app.set('secretKey', secret)
 
+app.use(morgan('dev'))
 app.use('/api', routes)
 
 

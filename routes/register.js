@@ -1,5 +1,5 @@
 const dbRegister = require('../models/register')
-const mailer = require('./emailandsmsmodule/nodemailer')
+const mailer = require('./emailSmsModule/nodemailer')
 const jwt = require('jsonwebtoken')
 
 
