@@ -6,7 +6,9 @@ const dbLogin = require('../../models/userLogin')
 module.exports = (req, res) => {
     dbLogin.findOne({email: req.decoded.email})
     .then(loginData => {
+        console.log(loginData)
         new dbQuestion({
+            user: loginData._id,
             email: req.decoded.email,
             textone: req.body.textone,
             texttwo: req.body.texttwo,

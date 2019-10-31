@@ -1,5 +1,5 @@
-const dbProfile  = require('../models/profile')
-const dbLogin = require('../models/userLogin')
+const dbProfile  = require('../../models/profile')
+const dbLogin = require('../../models/userLogin')
 
 module.exports = (req, res) => {
     dbLogin.find({email: req.decoded.email, phone: req.decoded.phone})

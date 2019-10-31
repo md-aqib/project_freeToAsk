@@ -1,5 +1,5 @@
-const dbRegister = require('../models/register')
-const mailer = require('../routes/emailSmsModule/nodemailer')
+const dbRegister = require('../../models/register')
+const mailer = require('../emailSmsModule/nodemailer')
 
 var generateOTP = () => {
     return Math.floor(100000 + Math.random() * 900000);

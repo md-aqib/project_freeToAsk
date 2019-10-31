@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken')
 
 
 exports.login = (req, res) => {
-    dbRegister.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}, {userName: req.body.userName}]})
+    dbLogin.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}, {userName: req.body.userName}]})
     .then(data => {
         console.log(data)
         if(!data || data == null){
