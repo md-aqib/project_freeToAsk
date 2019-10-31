@@ -1,5 +1,5 @@
-const dbLogin = require('../models/userLogin')
-const dbRegister = require('../models/register')
+const dbLogin = require('../../models/userLogin')
+const dbRegister = require('../../models/register')
 var jwt = require('jsonwebtoken')
 
 

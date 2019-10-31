@@ -1,7 +1,7 @@
-dbRegister = require('../models/register')
-dbLogin = require('../models/userLogin')
-dbProfile = require('../models/profile')
-nodeMailer = require('./emailSmsModule/nodemailer')
+dbRegister = require('../../models/register')
+dbLogin = require('../../models/userLogin')
+dbProfile = require('../../models/profile')
+nodeMailer = require('../emailSmsModule/nodemailer')
 
 
 module.exports = (req, res) => {

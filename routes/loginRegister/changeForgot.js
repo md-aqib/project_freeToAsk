@@ -1,7 +1,9 @@
-const dbRegister = require('../models/register')
-const dbLogin = require('../models/userLogin')
-const mailer = require('./emailSmsModule/nodemailer')
+const dbRegister = require('../../models/register')
+const dbLogin = require('../../models/userLogin')
+const mailer = require('../emailSmsModule/nodemailer')
 
+
+//change password API
 exports.changePass = (req, res) => {
     if(!req.body.newPass || !req.body.oldPass){
         res.json({
@@ -50,7 +52,8 @@ exports.changePass = (req, res) => {
 const generatePass = () =>{
    return 'abcd' + Math.floor(Math.random()*10000)
 }
-console.log(generatePass())
+
+//forgot password API
 exports.forgotPass = async(req, res) => {
     if(!req.body.email){
         res.json({
