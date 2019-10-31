@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken')
 exports.login = (req, res) => {
     dbRegister.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}, {userName: req.body.userName}]})
     .then(data => {
+        console.log(data)
         if(!data || data == null){
             res.json({
                 success: false,
@@ -21,6 +22,7 @@ exports.login = (req, res) => {
                 var token = jwt.sign(tokenData, req.app.get('secretKey'));
                 dbLogin.findOneAndUpdate({ email: req.body.email }, { $push: { lastLogin: new Date() }, $set: { token: token }})
                 .then(loginData => {
+                    console.log(loginData)
                     res.json({
                         success: true,
                         msg: "Login Successfull",
@@ -31,7 +33,8 @@ exports.login = (req, res) => {
                 .catch(err =>{
                     res.json({
                         success: false,
-                        msg: 'Error in login, Try again'
+                        msg: 'Error in login, Try again',
+                        err: err
                     })
                 })
         }else{
