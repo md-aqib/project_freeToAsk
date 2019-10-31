@@ -47,7 +47,10 @@ exports.changePass = (req, res) => {
 
 
 // Generate new password
-
+const generatePass = () =>{
+   return 'abcd' + Math.floor(Math.random()*10000)
+}
+console.log(generatePass())
 exports.forgotPass = async(req, res) => {
     if(!req.body.email){
         res.json({
@@ -63,12 +66,12 @@ exports.forgotPass = async(req, res) => {
                         msg: 'User not registered'
                     })
                 }else{
-                    let updated = await dbLogin.findOneAndUpdate({email: req.body.email}, {$set: {'password': 'aqib123'}});
+                    let updated = await dbLogin.findOneAndUpdate({email: req.body.email}, {$set: {'password': generatePass()}});
                     console.log(updated)
                     mailer.sendMails(req.body.email, `Your New Password is:`, updated.password)
                         res.json({
                             success: true,
-                            msg: 'New Password Updated'
+                            msg: 'New Password sent to your Email'
                         })
                     }
         }catch (err) {
