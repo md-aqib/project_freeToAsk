@@ -19,12 +19,15 @@ router.post('/login', login.login)
 const logout = require('./loginLogout')
 router.post('/logout', tokenVerify, logout.logout)
 
-const profile = require('./updateProfile')
+const profile = require('../updateProfile')
 router.post('/profile', tokenVerify, profile)
 
 //change and forgot password
-router.post('/changepassword', tokenVerify, require('./changeForgotPass').changePass)
-router.post('/forgotpassword', require('./changeForgotPass').forgotPass)
+router.post('/changepassword', tokenVerify, require('./changeForgot').changePass)
+router.post('/forgotpassword', require('./changeForgot').forgotPass)
+
+//Question Answer route
+router.post('/question', tokenVerify, require('../QuestionAnswer/question'))
 
 
 
