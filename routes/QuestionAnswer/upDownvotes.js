@@ -1,3 +1,10 @@
+const dbAnswer = require('../../models/answer')
+const dbLogin = require('../../models/userLogin')
+
+
+
+
+
 exports.upvote = async(req, res) => {
     try{
         let emailData = await dbLogin.findOne({email: req.decoded.email})
@@ -8,15 +15,15 @@ exports.upvote = async(req, res) => {
                 msg: 'something went wrong'
             })
         }else{
-            let QuestionData = await dbQuestion.findById(req.params.id)
+            let ansData = await dbAnswer.findById(req.params.id)
             console.log(QuestionData)
-            if(QuestionData.upvotes.includes(req.decoded.email)){
+            if(ansData.upvotes.includes(req.decoded.email)){
                 res.json({
                     success: false,
-                    msg: 'you are already upvoted'
+                    msg: 'you have already upvoted'
                 })
             }else{
-                let data = await dbQuestion.findOneAndUpdate({_id: req.params.id}, {$push: {upvotes: req.decoded.email}})
+                let data = await dbAnswer.findOneAndUpdate({_id: req.params.id}, {$push: {upvotes: req.decoded.email}})
                 res.json({
                     success: true,
                     data: data
@@ -25,11 +32,58 @@ exports.upvote = async(req, res) => {
         }
       
     }catch(err){
-        console.log(err)
+        res.json({
+            success: false,
+            msg: 'server error',
+            err: err
+        })
     }
  
 }
 
-exports.downvote = (req, res) => {
-    
+exports.downvote = async(req, res) => {
+    try{
+        let emailData = await dbLogin.findOne(req.decoded.email)
+        if(!emailData || emailData == 0){
+            res.json({
+                success: false,
+                msg: 'something went wrong'
+            })
+        }else{
+            try{
+                let answer = await dbAnswer.findById(req.params.id)
+                if(answer.downvotes.includes(req.decoded.email)){
+                    res.json({
+                        success: false,
+                        msg: 'you have already downvoted'
+                    })
+                }else{
+                    try{
+                        let data = await dbAnswer.findByIdAndUpdate({_id: req.params.id}, {$push: {downvotes: req.decoded.email}})
+                        res.json({
+                            success: true,
+                            data: data
+                        })
+                    } catch(err){
+                        res.json({
+                            success: false,
+                            err: err
+                        })
+                    }
+                }
+            } catch(err){
+                res.json({
+                    success: false,
+                    msg: 'you got some error'
+                })
+            }
+        }
+    } 
+     catch(err) {
+        res.json({
+            success: false,
+            msg: 'server err',
+            err: err
+        })
+    }
 }
