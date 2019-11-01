@@ -26,9 +26,12 @@ router.post('/profile', tokenVerify, profile)
 router.post('/changepassword', tokenVerify, require('../routes/loginRegister/changeForgot').changePass)
 router.post('/forgotpassword', require('../routes/loginRegister/changeForgot').forgotPass)
 
-//Question Answer route
+//Question Answer Upvote Downvote
 router.post('/question', tokenVerify, require('../routes/QuestionAnswer/question').question)
-router.post('/upvotes/:id', tokenVerify, require('../routes/QuestionAnswer/question').upvote)
+router.post('/answer/:questionId', tokenVerify, require('../routes/QuestionAnswer/answer'))
+
+router.post('/upvotes/:id', tokenVerify, require('../routes/QuestionAnswer/upDownvotes').upvote)
+router.post('/downvotes/:id', tokenVerify, require('../routes/QuestionAnswer/upDownvotes').downvote)
 
 
 

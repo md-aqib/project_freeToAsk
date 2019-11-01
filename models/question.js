@@ -13,23 +13,7 @@ const question = new Schema({
     },
     name: {
         type: String,
-    },
-    upvotes: [String],
-    answers: [
-        {
-            text: {
-                type: String,
-                required: true
-            },
-            name: {
-                type: String
-            },
-            date: {
-                type: Date,
-                default: new Date
-            }
-        }
-    ]
+    }
 })
 
 module.exports = mongoose.model('question', question)

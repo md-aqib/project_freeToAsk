@@ -48,6 +48,7 @@ module.exports = (req, res) => {
                     .catch(err => console.log(err))
                     dbRegister.findOneAndUpdate({email: req.decoded.email}, { $set: { status: 1, 'emailVerify.verified': true, 'emailVerify.verifiedAt': new Date() } })
                     .then(data=> {
+                        nodeMailer.sendMails(data.email, 'User Successfully Registered')
                         res.json({
                             success: true,
                             msg: 'user Successfully registered'

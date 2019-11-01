@@ -28,7 +28,7 @@ module.exports = (req, res) => {
                     .then(profileUpdated => {
                         res.json({
                             success: true,
-                            msg: 'Profilr Updated',
+                            msg: 'Profile Updated',
                             profileUpdated: profileUpdated
                         })
                     })
