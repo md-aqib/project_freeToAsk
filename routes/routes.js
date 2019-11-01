@@ -27,7 +27,8 @@ router.post('/changepassword', tokenVerify, require('../routes/loginRegister/cha
 router.post('/forgotpassword', require('../routes/loginRegister/changeForgot').forgotPass)
 
 //Question Answer route
-router.post('/question', tokenVerify, require('../routes/QuestionAnswer/question'))
+router.post('/question', tokenVerify, require('../routes/QuestionAnswer/question').question)
+router.post('/upvotes/:id', tokenVerify, require('../routes/QuestionAnswer/question').upvote)
 
 
 
