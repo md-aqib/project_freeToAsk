@@ -15,7 +15,7 @@ module.exports = (req, res) => {
         }else{
             new dbQuestion({
                 user: loginData._id,
-                email: req.decoded.email,
+                email: loginData.email,
                 textone: req.body.textone,
                 texttwo: req.body.texttwo,
                 name: req.body.name

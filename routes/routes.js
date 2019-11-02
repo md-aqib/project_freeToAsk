@@ -3,7 +3,7 @@ const router = express.Router()
 const tokenVerify = require('../routes/loginRegister/tokenVerify')
 
 
-// register, login, profile update routes
+// register, login, profile update route
 const register = require('../routes/loginRegister/register')
 router.post('/register', register)
 
@@ -22,11 +22,11 @@ router.post('/logout', tokenVerify, logout.logout)
 const profile = require('../routes/loginRegister/updateProfile')
 router.post('/profile', tokenVerify, profile)
 
-//change and forgot password
+//change and forgot password route
 router.post('/changepassword', tokenVerify, require('../routes/loginRegister/changeForgot').changePass)
 router.post('/forgotpassword', require('../routes/loginRegister/changeForgot').forgotPass)
 
-//Question Answer Upvote Downvote
+//Question Answer Upvote Downvote route
 router.post('/question', tokenVerify, require('../routes/QuestionAnswer/question'))
 router.post('/answer/:questionId', tokenVerify, require('../routes/QuestionAnswer/answer'))
 
