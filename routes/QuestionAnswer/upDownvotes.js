@@ -3,7 +3,7 @@ const dbLogin = require('../../models/userLogin')
 
 
 
-
+//upvote and downvote API
 
 exports.upvote = async(req, res) => {
     try{
@@ -15,7 +15,7 @@ exports.upvote = async(req, res) => {
                 msg: 'something went wrong'
             })
         }else{
-            let ansData = await dbAnswer.findById(req.params.id)
+            let ansData = await dbAnswer.findById(req.params.answerId)
             console.log(QuestionData)
             if(ansData.upvotes.includes(req.decoded.email)){
                 res.json({
@@ -23,7 +23,7 @@ exports.upvote = async(req, res) => {
                     msg: 'you have already upvoted'
                 })
             }else{
-                let data = await dbAnswer.findOneAndUpdate({_id: req.params.id}, {$push: {upvotes: req.decoded.email}})
+                let data = await dbAnswer.findOneAndUpdate({_id: req.params.answerId}, {$push: {upvotes: req.decoded.email}})
                 res.json({
                     success: true,
                     data: data
@@ -51,7 +51,7 @@ exports.downvote = async(req, res) => {
             })
         }else{
             try{
-                let answer = await dbAnswer.findById(req.params.id)
+                let answer = await dbAnswer.findById(req.params.answerId)
                 if(answer.downvotes.includes(req.decoded.email)){
                     res.json({
                         success: false,
@@ -59,7 +59,7 @@ exports.downvote = async(req, res) => {
                     })
                 }else{
                     try{
-                        let data = await dbAnswer.findByIdAndUpdate({_id: req.params.id}, {$push: {downvotes: req.decoded.email}})
+                        let data = await dbAnswer.findByIdAndUpdate({_id: req.params.answerId}, {$push: {downvotes: req.decoded.email}})
                         res.json({
                             success: true,
                             data: data

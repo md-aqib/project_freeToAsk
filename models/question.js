@@ -2,7 +2,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const question = new Schema({
-
+    user: {
+        type: mongoose.Schema.Types.ObjectId
+    },
     textone: {
         type: String,
         required: true

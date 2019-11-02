@@ -27,11 +27,11 @@ router.post('/changepassword', tokenVerify, require('../routes/loginRegister/cha
 router.post('/forgotpassword', require('../routes/loginRegister/changeForgot').forgotPass)
 
 //Question Answer Upvote Downvote
-router.post('/question', tokenVerify, require('../routes/QuestionAnswer/question').question)
+router.post('/question', tokenVerify, require('../routes/QuestionAnswer/question'))
 router.post('/answer/:questionId', tokenVerify, require('../routes/QuestionAnswer/answer'))
 
-router.post('/upvotes/:id', tokenVerify, require('../routes/QuestionAnswer/upDownvotes').upvote)
-router.post('/downvotes/:id', tokenVerify, require('../routes/QuestionAnswer/upDownvotes').downvote)
+router.post('/upvotes/:answerId', tokenVerify, require('../routes/QuestionAnswer/upDownvotes').upvote)
+router.post('/downvotes/:answerId', tokenVerify, require('../routes/QuestionAnswer/upDownvotes').downvote)
 
 
 

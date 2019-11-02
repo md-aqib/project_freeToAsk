@@ -13,10 +13,12 @@ module.exports = async(req, res) => {
             })
         }else{
             try{
+                let questionData = await dbQuestion.findById(req.params.questionId)
+                console.log(questionData._id)
                 let answerData = await new dbAnswer({
-                    textOne: req.body.textOne,
-                    texttwo: req.body.texttwo,
-                    name: req.body.name
+                    question: questionData._id,
+                    text: req.body.text,
+                    email: loginData.email
                 }).save()
                 res.json({
                     success: true,
@@ -25,7 +27,8 @@ module.exports = async(req, res) => {
             }catch(err){
                 res.json({
                     success: false,
-                    msg: 'error in saving answer'
+                    msg: 'error in saving answer',
+                    err: err
                 })
             }  
         }
