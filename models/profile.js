@@ -12,13 +12,14 @@ const Schema = mongoose.Schema
 
 
 const profile = new Schema({
-    useName: String,
+    userName: String,
+    bio: String,
     name: String,
     email: String,
     profilePic: {
         type: String
     },
-    user_type: {
+    userType: {
         type: String,
         enum: ['student', 'working']
     },

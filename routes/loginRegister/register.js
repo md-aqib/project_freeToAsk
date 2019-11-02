@@ -9,7 +9,7 @@ var generateOTP = () => {
 }
 
 module.exports = (req, res) => {
-    dbRegister.findOne({email: req.body.email})
+    dbRegister.findOne({email: req.body.email, userName: req.body.userName})
     .then(data => {
         if(data){
             res.json({

@@ -20,7 +20,8 @@ module.exports = (req, res) => {
                 }else{
                     const profile = {
                         name: profileData.name,
-                        user_type: req.body.userType,
+                        bio: req.body.bio,
+                        userType: req.body.userType,
                         portfolio: req.body.portfolio,
                         status: 3
                     }
