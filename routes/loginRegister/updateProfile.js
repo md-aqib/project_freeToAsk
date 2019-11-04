@@ -2,7 +2,7 @@ const dbProfile  = require('../../models/profile')
 const dbLogin = require('../../models/userLogin')
 
 module.exports = (req, res) => {
-    dbLogin.find({email: req.decoded.email, phone: req.decoded.phone})
+    dbLogin.findOne({email: req.decoded.email})
     .then(loginData => {
         if(!loginData || loginData == null){
             res.json({
@@ -10,7 +10,7 @@ module.exports = (req, res) => {
                 msg: 'User details does not exists'
             })
         }else{
-            dbProfile.find({email: req.decoded.email, phone: req.decoded.phone})
+            dbProfile.findOne({email: req.decoded.email})
             .then(profileData => {
                 if(!profileData || profileData == null){
                     res.json({
@@ -18,14 +18,11 @@ module.exports = (req, res) => {
                         msg: "You haven't registered or completed the registration process yet."
                     })
                 }else{
-                    const profile = {
-                        name: profileData.name,
-                        bio: req.body.bio,
-                        userType: req.body.userType,
-                        portfolio: req.body.portfolio,
-                        status: 3
-                    }
-                    dbProfile.findOneAndUpdate({email: email}, {$set: {profile}})
+                    const bio= req.body.bio,
+                        userType= req.body.userType,
+                        portfolio= req.body.portfolio
+                        
+                    dbProfile.findOneAndUpdate({email: req.decoded.email}, {$set: {bio,userType, portfolio, status: 3}})
                     .then(profileUpdated => {
                         res.json({
                             success: true,

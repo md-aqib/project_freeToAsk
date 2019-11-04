@@ -15,18 +15,29 @@ exports.upvote = async(req, res) => {
                 msg: 'something went wrong'
             })
         }else{
-            let ansData = await dbAnswer.findById(req.params.answerId)
+            try{
+                let ansData = await dbAnswer.findById(req.params.answerId)
             console.log(QuestionData)
             if(ansData.upvotes.includes(req.decoded.email)){
                 res.json({
                     success: false,
                     msg: 'you have already upvoted'
                 })
+            }else if(ansData.downvotes.includes(req.decoded.email)){
+
+
             }else{
                 let data = await dbAnswer.findOneAndUpdate({_id: req.params.answerId}, {$push: {upvotes: req.decoded.email}})
                 res.json({
                     success: true,
                     data: data
+                })
+            }
+            }
+            catch(err){
+                res.json({
+                    success: false,
+                    err: err
                 })
             }
         }
