@@ -24,19 +24,19 @@ module.exports = (req, res) => {
                         
                     dbProfile.findOneAndUpdate({email: req.decoded.email}, {$set: {bio,userType, portfolio, status: 3}})
                     .then(profileUpdated => {
-                        res.json({
-                            success: true,
-                            msg: 'Profile Updated',
-                            newData: profileUpdated
-                        })
+                        if(profileUpdated){
+                            dbProfile.findOne({email: req.decoded.email})
+                            .then(profileData => {
+                                res.json({
+                                    success: true,
+                                    msg: 'Profile Updated',
+                                    newData: profileData
+                                })
+                            })
+                            .catch(err => console.log(err))
+                        }
                     })
-                    .catch(err =>{
-                        res.json({
-                            success: false,
-                            msg: 'Error in Profile Update',
-                            err: err
-                        })
-                    })
+                    .catch(err => console.log(err))
                 }
             })
             .catch(err => {
@@ -51,7 +51,7 @@ module.exports = (req, res) => {
     .catch(err => {
         res.json({
             success: false,
-            msg: 'Data not Found, Please try again',
+            msg: 'loginData not Found, Please try again',
             err: err
         })
     })
