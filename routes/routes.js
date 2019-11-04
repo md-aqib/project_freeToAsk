@@ -33,6 +33,10 @@ router.post('/answer/:questionId', tokenVerify, require('../routes/QuestionAnswe
 router.post('/upvotes/:answerId', tokenVerify, require('../routes/QuestionAnswer/upDownvotes').upvote)
 router.post('/downvotes/:answerId', tokenVerify, require('../routes/QuestionAnswer/upDownvotes').downvote)
 
+//Get API
+router.get('/getQuestions', tokenVerify, require('../routes/QuestionAnswer/getAllQuestions'))
+router.get('/getAnsById/:questionId',  require('./QuestionAnswer/ansbyquesId'))
+
 
 
 
