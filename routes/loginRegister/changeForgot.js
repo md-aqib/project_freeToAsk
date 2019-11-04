@@ -69,13 +69,16 @@ exports.forgotPass = async(req, res) => {
                         msg: 'User not registered'
                     })
                 }else{
-                    let updated = await dbLogin.findOneAndUpdate({email: req.body.email}, {$set: {'password': generatePass()}});
-                    console.log(updated)
-                    mailer.sendMails(req.body.email, `Your New Password is:`, updated.password)
-                        res.json({
-                            success: true,
-                            msg: 'New Password sent to your Email'
-                        })
+                    let update = await dbLogin.findOneAndUpdate({email: req.body.email}, {$set: {'password': generatePass()}});
+                    console.log('-----------------------',update)
+                        if(update){
+                            let updated = await dbLogin.findOne({email: req.body.email})
+                            mailer.sendMails(req.body.email, 'Your New Password is:', updated.password)
+                            res.json({
+                                success: true,
+                                msg: 'New Password Sent to your email'
+                            })
+                        }
                     }
         }catch (err) {
             res.json({

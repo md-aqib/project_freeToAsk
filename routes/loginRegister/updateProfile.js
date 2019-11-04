@@ -27,7 +27,7 @@ module.exports = (req, res) => {
                         res.json({
                             success: true,
                             msg: 'Profile Updated',
-                            profileUpdated: profileUpdated
+                            newData: profileUpdated
                         })
                     })
                     .catch(err =>{
