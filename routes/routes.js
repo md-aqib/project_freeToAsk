@@ -35,7 +35,7 @@ router.post('/downvotes/:answerId', tokenVerify, require('../routes/QuestionAnsw
 
 //Get API
 router.get('/getQuestions', tokenVerify, require('../routes/QuestionAnswer/getAllQuestions'))
-router.get('/getAnsById/:questionId',  require('./QuestionAnswer/ansbyquesId'))
+router.get('/getAnsById/:questionId', tokenVerify, require('./QuestionAnswer/ansbyquesId'))
 
 
 
