@@ -3,8 +3,7 @@ const dbLogin = require('../../models/userLogin')
 
 
 
-//upvote and downvote API
-
+//upvote API
 exports.upvote = async(req, res) => {
     try{
         let emailData = await dbLogin.findOne({email: req.decoded.email})
@@ -59,6 +58,8 @@ exports.upvote = async(req, res) => {
  
 }
 
+
+//downvote API
 exports.downvote = async(req, res) => {
     try{
         let emailData = await dbLogin.findOne({email: req.decoded.email})

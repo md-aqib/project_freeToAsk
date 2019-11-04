@@ -19,7 +19,7 @@ exports.login = (req, res) => {
                         email: data.email,
                         phone: data.phone
                     }
-                var token = jwt.sign(tokenData, req.app.get('secretKey'));
+                var token = jwt.sign(tokenData, req.app.get('secretKey'), { expiresIn: '1h' });
                 dbLogin.findOneAndUpdate({ email: req.body.email }, { $push: { lastLogin: new Date() }, $set: { token: token }})
                 .then(loginData => {
                     console.log(loginData)
