@@ -16,6 +16,10 @@ const question = new Schema({
     },
     name: {
         type: String,
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
 })
 

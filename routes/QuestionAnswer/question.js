@@ -18,7 +18,7 @@ module.exports = (req, res) => {
                 email: loginData.email,
                 textone: req.body.textone,
                 texttwo: req.body.texttwo,
-                name: req.body.name
+                name: loginData.name
             })
             .save()
             .then(questionData => {
