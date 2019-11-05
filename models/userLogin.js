@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema
 
 
@@ -55,5 +56,19 @@ const userLogin = new Schema({
     }
 
 })
+
+
+
+
+// const saltRounds = 10;
+
+
+// bcrypt.hash(password, saltRounds).then(function(hash) {
+//     // Store hash in your password DB.
+// });
+
+// bcrypt.compare(password, hash).then(function(res) {
+//     // res == true
+// });
 
 module.exports = mongoose.model('userLogin', userLogin)

@@ -13,7 +13,7 @@ router.post('/emailVerify', tokenVerify, emailVerify)
 const resend = require('../routes/loginRegister/resend')
 router.post('/resend', tokenVerify, resend)
 
-const login = require('../routes/loginRegister/loginLogout')
+const login = require('./loginRegister/loginLogout')
 router.post('/login', login.login)
 
 const logout = require('../routes/loginRegister/loginLogout')

@@ -1,19 +1,24 @@
 const dbLogin = require('../../models/userLogin')
-const dbRegister = require('../../models/register')
 var jwt = require('jsonwebtoken')
 
 
 
 exports.login = (req, res) => {
-    dbLogin.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}, {userName: req.body.userName}]})
-    .then(data => {
-        console.log(data)
-        if(!data || data == null){
-            res.json({
-                success: false,
-                msg: 'user not registered yet'
-            })
-        }else if(req.body.password == data.password){
+    if(!req.body.email || !req.body.password){
+        res.json({
+            success: false,
+            msg: 'please enter both email and password'
+        })
+        }else {
+            dbLogin.findOne({$or: [{email: req.body.email}, {phone: req.body.phone}, {userName: req.body.userName}]})
+            .then(data => {
+            console.log(data)
+                if(!data || data == null){
+                    res.json({
+                        success: false,
+                        msg: 'user not registered yet'
+                    })
+                }else if(req.body.password == data.password){
                    var tokenData = {
                         name: data.name,
                         email: data.email,
@@ -51,6 +56,7 @@ exports.login = (req, res) => {
             err: err
         })
     })
+}
 }
 
 
