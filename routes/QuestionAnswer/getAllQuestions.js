@@ -3,13 +3,16 @@ const dbLogin = require('../../models/userLogin')
 
 module.exports = (req, res) => {
     
-    dbLogin.finOne({email: req.decoded.email})
-    .then(loginData => {
-        if(!loginData || loginData == null){
+    dbLogin.findOne({email: req.decoded.email}, (err, loginData) => {
+        console.log(loginData)
+        if(err){
+            console.log(err)
+        }else if(!loginData || loginData == 0){
             res.json({
                 success: false,
-                msg: 'user not logged in'
+                msg: 'User not looged in'
             })
+    
         }else{
             dbQuestion.find({}, (err, questions) => {
                 if(err){
@@ -27,6 +30,8 @@ module.exports = (req, res) => {
             })
         }
     })
-
-    .catch(err => console.log(err))
 }
+
+    
+
+ 

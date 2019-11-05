@@ -24,12 +24,17 @@ module.exports = (req, res, next) => {
                         next()
                     }else{
                         res.json({
-                            success: false,
+                            success: true,
                             msg: 'unauthorized token'
                         })
                     }
                 })
             }
     })
+    }else{
+        res.json({
+            success: false,
+            msg: "token not found"
+        })
     }
 }

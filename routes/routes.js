@@ -20,7 +20,10 @@ const logout = require('../routes/loginRegister/loginLogout')
 router.post('/logout', tokenVerify, logout.logout)
 
 const profile = require('../routes/loginRegister/updateProfile')
-router.post('/profile', tokenVerify, profile)
+router.post('/profileUpdate', tokenVerify, profile)
+
+const profileData = require('./loginRegister/profileData')
+router.post('/profileData', tokenVerify, profileData)
 
 //change and forgot password route
 router.post('/changepassword', tokenVerify, require('../routes/loginRegister/changeForgot').changePass)
@@ -34,8 +37,8 @@ router.post('/upvotes/:answerId', tokenVerify, require('../routes/QuestionAnswer
 router.post('/downvotes/:answerId', tokenVerify, require('../routes/QuestionAnswer/upDownvotes').downvote)
 
 //Get API
-router.get('/getQuestions', tokenVerify, require('../routes/QuestionAnswer/getAllQuestions'))
-router.get('/getAnsById/:questionId', tokenVerify, require('./QuestionAnswer/ansbyquesId'))
+router.post('/getQuestions',tokenVerify, require('./QuestionAnswer/getAllQuestions'))
+router.post('/getAnsById/:questionId', tokenVerify, require('./QuestionAnswer/ansbyquesId'))
 
 
 
