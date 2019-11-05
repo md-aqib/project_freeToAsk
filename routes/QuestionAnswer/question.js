@@ -13,29 +13,36 @@ module.exports = (req, res) => {
                 msg: 'Unathorised user'
             })
         }else{
-            new dbQuestion({
-                user: loginData._id,
-                email: loginData.email,
-                textone: req.body.textone,
-                texttwo: req.body.texttwo,
-                name: loginData.name
-            })
-            .save()
-            .then(questionData => {
-                res.json({
-                    success: true,
-                    msg: 'question updated',
-                    questions: questionData
-    
-                })
-            })
-            .catch(err => {
+            if(!req.body.textone || !req.body.texttwo){
                 res.json({
                     success: false,
-                    msg: 'error in update question'
+                    msg: 'please enter the question details'
                 })
-            })
-        }
+            }else{
+                new dbQuestion({
+                    user: loginData._id,
+                    email: loginData.email,
+                    textone: req.body.textone,
+                    texttwo: req.body.texttwo,
+                    name: loginData.name
+                })
+                .save()
+                .then(questionData => {
+                    res.json({
+                        success: true,
+                        msg: 'question updated',
+                        questions: questionData
+        
+                    })
+                })
+                .catch(err => {
+                    res.json({
+                        success: false,
+                        msg: 'error in update question'
+                    })
+                })
+            }
+            }
     })
     .catch(err => {
         res.json({
