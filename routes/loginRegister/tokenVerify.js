@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
                     success: false,
                     msg: 'something went wrong or token expired'
                 })
-            }else if(decoded.userName){
+            }else if(decoded.userName){ //check, for email verication during register
                 req.decoded = decoded
                 next()
             }else{
