@@ -18,11 +18,11 @@ module.exports = (req, res) => {
                         msg: "You haven't registered or completed the registration process yet."
                     })
                 }else{
-                    const bio= req.body.bio,
-                        userType= req.body.userType,
-                        portfolio= req.body.portfolio
+                    const object = { bio: req.body.bio,
+                                    userType: req.body.userType,
+                                    portfolio: req.body.portfolio}
                         
-                    dbProfile.findOneAndUpdate({email: req.decoded.email}, {$set: {bio,userType, portfolio, status: 3}})
+                    dbProfile.findOneAndUpdate({email: req.decoded.email}, {$set: {object, status: 3}})
                     .then(profileUpdated => {
                         if(profileUpdated){
                             dbProfile.findOne({email: req.decoded.email})

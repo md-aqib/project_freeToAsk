@@ -11,12 +11,12 @@ module.exports = (req, res, next) => {
             if(err){
                 res.json({
                     success: false,
-                    msg: 'token expired'
+                    msg: 'something went wrong or token expired'
                 })
+            }else if(decoded.userName){
+                req.decoded = decoded
+                next()
             }else{
-                dbRegister.findOne({email: decoded}, (err, register) => {
-
-                })
                 dbLogin.findOne({email: decoded.email}, (err, login) => {
                     if(err){
                         res.json({
