@@ -44,13 +44,17 @@ module.exports = (req, res) => {
                 .then(userRegistered => {
                     let msg = "Your otp for email verification is :- "
                     if(userRegistered){
-                        let token = jwt.sign({ email: req.body.email, phone: req.body.phone }, req.app.get("secretKey"),{ expiresIn: '1h' })
-                        mailer.sendMails(userRegistered.email, msg, userRegistered.emailVerify.otp.toString())
-                        res.json({
-                            success: true,
-                            msg: 'please verify email',
-                            token: token
+                        let token = jwt.sign({ email: req.body.email, phone: req.body.phone, userName: req.body.userName}, req.app.get("secretKey"),{ expiresIn: '1h' })
+                        dbRegister.findOneAndUpdate({email: req.body.email}, {$set: {token: token}})
+                        .then(updated => {
+                            mailer.sendMails(userRegistered.email, msg, userRegistered.emailVerify.otp.toString())
+                            res.json({
+                                success: true,
+                                msg: 'please verify email',
+                                token: token
+                            })
                         })
+                        .catch(err => console.log(err))
                     }else{
                         res.json({
                             success: false,

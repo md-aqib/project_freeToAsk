@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const dbLogin = require('../../models/userLogin')
+const dbRegister = require('../../models/register')
 
 
 module.exports = (req, res, next) => {
@@ -10,14 +11,17 @@ module.exports = (req, res, next) => {
             if(err){
                 res.json({
                     success: false,
-                    msg: 'something went wrong'
+                    msg: 'token expired'
                 })
             }else{
+                dbRegister.findOne({email: decoded}, (err, register) => {
+
+                })
                 dbLogin.findOne({email: decoded.email}, (err, login) => {
                     if(err){
                         res.json({
                             success: false,
-                            msg: 'DB_ERROR'
+                            msg: 'DB_ERROR' 
                         })
                     }else if(login && login.token == req.headers['token']){
                         req.decoded = decoded

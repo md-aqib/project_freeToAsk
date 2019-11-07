@@ -20,7 +20,6 @@ exports.login = (req, res) => {
                     })
                 }else if(req.body.password == data.password){
                    var tokenData = {
-                        name: data.name,
                         email: data.email,
                         phone: data.phone
                     }

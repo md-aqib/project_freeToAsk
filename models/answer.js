@@ -8,7 +8,7 @@ answer = new Schema({
     email: String,
     text:{
         type: String,
-            },   
+            },
     name:{
         type: String
         },

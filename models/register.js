@@ -50,7 +50,9 @@ const register = new Schema({
         type: Date,
         default: new Date()
 
-    }
+    },
+    token: String
+    
 })
 
 module.exports = mongoose.model('register', register)
