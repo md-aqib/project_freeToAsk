@@ -1,7 +1,9 @@
-dbRegister = require('../../models/register')
-dbLogin = require('../../models/userLogin')
-dbProfile = require('../../models/profile')
-nodeMailer = require('../emailSmsModule/nodemailer')
+const dbRegister = require('../../models/register')
+const dbLogin = require('../../models/userLogin')
+const dbProfile = require('../../models/profile')
+const nodeMailer = require('../emailSmsModule/nodemailer')
+const bcrypt = require('bcrypt')
+const saltRounds = 8
 
 
 module.exports = (req, res) => {
@@ -19,7 +21,7 @@ module.exports = (req, res) => {
                     msg: 'Please register first'
                 })
             }else if(registeredData.emailVerify.otp == req.body.emailOtp){
-                new dbLogin({
+                login = new dbLogin({
                     name: registeredData.name,
                     phone: registeredData.phone,
                     email: registeredData.email,
@@ -28,38 +30,41 @@ module.exports = (req, res) => {
                     status: 1,
                     createdAt: new Date()
                 })
-                .save()
-                .then(loginData => {
-                    new dbProfile({
-                        name: registeredData.name,
-                        phone: registeredData.phone,
-                        email: registeredData.email,
-                        userName: registeredData.userName,
-                        password: registeredData.password,
-                        status: 2,
-                        createdAt: new Date()
-                    })
-                    .save()
-                    .then(profileData => {
-                        console.log('profileData Saved')
-                    })
-                    .catch(err => console.log(err))
-                })
-                    .catch(err => console.log(err))
-                    dbRegister.findOneAndUpdate({email: req.decoded.email}, { $set: { status: 1, 'emailVerify.verified': true, 'emailVerify.verifiedAt': new Date() } })
-                    .then(data=> {
-                        nodeMailer.sendMails(data.email, 'User Successfully Registered')
-                        res.json({
-                            success: true,
-                            msg: 'user Successfully registered'
+                bcrypt.hash(registeredData.password, saltRounds)
+                .then((hash) => {
+                    login.password = hash
+                    login.save()
+                    .then(loginData => {
+                        new dbProfile({
+                            name: registeredData.name,
+                            phone: registeredData.phone,
+                            email: registeredData.email,
+                            userName: registeredData.userName,
+                            status: 2,
+                            createdAt: new Date()
                         })
+                        .save()
+                        .then(profileData => {
+                            dbRegister.findOneAndUpdate({email: req.decoded.email}, { $set: { status: 1, 'emailVerify.verified': true, 'emailVerify.verifiedAt': new Date() } })
+                            .then(data=> {
+                                nodeMailer.sendMails(data.email, 'User Successfully Registered')
+                                res.json({
+                                    success: true,
+                                    msg: 'user Successfully registered'
+                                })
+                            })
+                            .catch(err =>
+                                res.json({
+                                    success: false,
+                                    msg: 'something went wrong',
+                                    err : err
+                                }))
+                        })
+                        .catch(err => console.log(err))
                     })
-                    .catch(err =>
-                        res.json({
-                            success: false,
-                            msg: 'something went wrong',
-                            err : err
-                        }))
+                        .catch(err => console.log(err))
+                })
+                .catch(err => console.log(err))
             }else{
                 res.json({
                     success: false,

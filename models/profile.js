@@ -22,7 +22,7 @@ const profile = new Schema({
     userType: {
         type: String,
         enum: ['student', 'working'],
-        default: 'student'
+        trim: true
     },
     portfolio: [String],
     createdAt: Date,
