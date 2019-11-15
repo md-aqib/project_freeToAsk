@@ -1,5 +1,7 @@
 const dbLogin = require('../../models/userLogin')
+const bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken')
+
 
 
 
@@ -18,35 +20,41 @@ exports.login = (req, res) => {
                         success: false,
                         msg: 'user not registered yet'
                     })
-                }else if(req.body.password == data.password){
-                   var tokenData = {
-                        email: data.email,
-                        phone: data.phone
-                    }
-                var token = jwt.sign(tokenData, req.app.get('secretKey'), { expiresIn: '1h' });
-                dbLogin.findOneAndUpdate({ email: req.body.email }, { $push: { lastLogin: new Date() }, $set: { token: token }})
-                .then(loginData => {
-                    console.log(loginData)
-                    res.json({
-                        success: true,
-                        msg: "Login Successfull",
-                        status: loginData.status,
-                        token: token
+                }else{
+                    bcrypt.compare(req.body.password, data.password)
+                    .then((matched) => {
+                        if(matched){
+                            var tokenData = {
+                                email: data.email,
+                                phone: data.phone
+                            }
+                        var token = jwt.sign(tokenData, req.app.get('secretKey'), { expiresIn: '1h' });
+                        dbLogin.findOneAndUpdate({ email: req.body.email }, { $push: { lastLogin: new Date() }, $set: { token: token }})
+                        .then(loginData => {
+                            console.log(loginData)
+                            res.json({
+                                success: true,
+                                msg: "Login Successfull",
+                                status: loginData.status,
+                                token: token
+                            })
+                        })
+                        .catch(err =>{
+                            res.json({
+                                success: false,
+                                msg: 'Error in login, Try again',
+                                err: err
+                            })
+                        })
+                        }else{
+                            res.json({
+                                success: false,
+                                msg: 'incorrect password'
+                            })
+                        }
                     })
-                })
-                .catch(err =>{
-                    res.json({
-                        success: false,
-                        msg: 'Error in login, Try again',
-                        err: err
-                    })
-                })
-        }else{
-            res.json({
-                success: false,
-                msg: 'Incorrect Password'
-            })
-        }
+                    .catch(err => console.log(err))
+                }     
     })
     .catch(err => {
         res.json({
@@ -57,6 +65,7 @@ exports.login = (req, res) => {
     })
 }
 }
+
 
 
 exports.logout = (req, res) =>{

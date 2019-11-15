@@ -8,7 +8,7 @@ const tokenVerify = require('./loginRegister/tokenVerify')
 //multer, file upload
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './routes/loginRegister/pictures')
+      cb(null, './loginRegister/pictures')
     },
     filename: function (req, file, cb) {
       cb(null, 'img' + Date.now() + '' + file.originalname)
