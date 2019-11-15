@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 const dbLogin = require('../../models/userLogin')
-const dbRegister = require('../../models/register')
 
 
 module.exports = (req, res, next) => {

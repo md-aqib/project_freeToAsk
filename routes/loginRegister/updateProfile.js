@@ -25,7 +25,7 @@ module.exports = (req, res) => {
                                     status: 3
                                 }
                         
-                    dbProfile.findOneAndUpdate({email: req.decoded.email}, {$set: object})
+                    dbProfile.findOneAndUpdate({email: req.decoded.email}, {$set: object}, { runValidators: true })
                     .then(profileUpdated => {
                         if(profileUpdated){
                             dbProfile.findOne({email: req.decoded.email})

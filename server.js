@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const myURL = require('./config/myURL')
 const routes = require('./routes/routes')
+const profile = require('./routes/loginRegister/profilePic')
 
 
 
@@ -30,7 +31,10 @@ var secret = myURL.secret
 app.set('secretKey', secret)
 
 app.use(morgan('dev'))
+app.use('/', profile)
 app.use('/api', routes)
+
+
 
 
 

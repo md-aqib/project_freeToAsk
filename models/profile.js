@@ -21,12 +21,13 @@ const profile = new Schema({
     },
     userType: {
         type: String,
-        enum: ['student', 'working']
+        enum: ['student', 'working'],
+        default: 'student'
     },
     portfolio: [String],
     createdAt: Date,
     updatedAt: [Date],
-    status: Number
+    status: Number,
 })
 
 module.exports = mongoose.model('profile', profile)

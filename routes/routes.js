@@ -1,6 +1,29 @@
 const express = require('express')
+const multer = require('multer')
 const router = express.Router()
 const tokenVerify = require('./loginRegister/tokenVerify')
+
+
+
+//multer, file upload
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './routes/loginRegister/pictures')
+    },
+    filename: function (req, file, cb) {
+      cb(null, 'img' + Date.now() + '' + file.originalname)
+    }
+  })
+  var upload = multer({ storage: storage }).single('avatar')
+
+  router.post('/profile', tokenVerify, function (req, res, next) {
+    upload(req, res, (err) => {
+        if(err) console.log(err)
+        res.send('file uploaded')
+    })
+  })
+
+
 
 
 // register, login, profile update route
@@ -39,6 +62,9 @@ router.post('/downvotes/:answerId', tokenVerify, require('./QuestionAnswer/upDow
 //Get APIs
 router.post('/getQuestions',tokenVerify, require('./QuestionAnswer/getAllQuestions'))
 router.post('/getAnsById/:questionId', tokenVerify, require('./QuestionAnswer/ansbyquesId'))
+
+
+// router.post('/profile', require('./loginRegister/profilePic'))
 
 
 
