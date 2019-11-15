@@ -1,9 +1,11 @@
 const dbRegister = require('../../models/register')
 const dbLogin = require('../../models/userLogin')
 const mailer = require('../emailSmsModule/nodemailer')
+const bcrypt = require('bcrypt')
+const saltRound = 8
 
 
-//change password API
+// //change password API
 exports.changePass = (req, res) => {
     if(!req.body.newPass || !req.body.oldPass){
         res.json({
@@ -49,43 +51,71 @@ exports.changePass = (req, res) => {
 
 
 // Generate new password
-const generatePass = () =>{
-   return 'abcd' + Math.floor(Math.random()*10000)
+const generatePass = async() =>{
+    let newPassword = await 'abcd' + Math.floor(Math.random()*10000)
+    return newPassword
 }
 
+
+
+
+
+
 //forgot password API
-exports.forgotPass = async(req, res) => {
+exports.forgotPass = (req, res) => {
     if(!req.body.email){
         res.json({
             success: false,
             msg: 'Please Enter Your Email.'
         })
     }else{
-       try {
-            let emailData = await dbRegister.findOne({email: req.body.email});
+            dbRegister.findOne({email: req.body.email})
+            .then(emailData => {
                 if(!emailData || emailData == null){
                     res.json({
                         success: false,
                         msg: 'User not registered'
                     })
                 }else{
-                    let update = await dbLogin.findOneAndUpdate({email: req.body.email}, {$set: {'password': generatePass()}});
-                    console.log('-----------------------',update)
-                        if(update){
-                            let updated = await dbLogin.findOne({email: req.body.email})
-                            mailer.sendMails(req.body.email, 'Your New Password is:', updated.password)
-                            res.json({
-                                success: true,
-                                msg: 'New Password Sent to your email'
-                            })
+                    generatePass()
+                    .then(generatedPass => {
+                        //hash password
+                        const hashPass = async() => {
+                            let hash = await bcrypt.hash(generatedPass, saltRound)
+                            return hash
                         }
+                        hashPass()
+                            .then(hashed => {
+                                dbLogin.findOneAndUpdate({email: req.body.email}, {$set: {'password': hashed}})
+                                .then(update => {
+                                    if(update){
+                                        dbLogin.findOne({email: req.body.email})
+                                        .then(updated => {
+                                            mailer.sendMails(req.body.email, 'Your New Password is:', generatedPass)
+                                                res.json({
+                                                    success: true,
+                                                    msg: 'New Password Sent to your email'
+                                                })
+                                        })
+                                        .catch()
+                                        
+                                    }else{
+                                        res.json({
+                                            success: false,
+                                            msg: 'new password not updated'
+                                        })
+                                    }
+                                })
+                                .catch(err => console.log(err))
+                            })
+                            .catch(err => console.log(err))
+
+                    })
+                    .catch(err => console.log(err))
+                        
                     }
-        }catch (err) {
-            res.json({
-                success: false,
-                msg: 'server errror',
-                err: err
             })
-       }
+            .catch(err => console.log(err))
+                
     }
 }

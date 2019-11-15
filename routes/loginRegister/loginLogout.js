@@ -22,6 +22,7 @@ exports.login = (req, res) => {
                     })
                 }else{
                     bcrypt.compare(req.body.password, data.password)
+                    // console.log('lllllllllllllllllllllllllllllllll',req.body.password, 'uuuuuuuuuuuuu', data.password)
                     .then((matched) => {
                         if(matched){
                             var tokenData = {
