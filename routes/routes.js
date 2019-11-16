@@ -4,6 +4,7 @@ const router = express.Router()
 const tokenVerify = require('../strategies/tokenVerify')
 const regValidate = require('../validation/registerValidate')
 const logValidate = require('../validation/loginValidate')
+const changePassVali = require('../validation/changePassVali')
 
 
 
@@ -51,7 +52,7 @@ const profileData = require('./loginRegister/profileData')
 router.post('/profileData', tokenVerify, profileData)
 
 //change and forgot password route
-router.post('/changepassword', tokenVerify, require('./loginRegister/changeForgot').changePass)
+router.post('/changepassword',changePassVali, tokenVerify, require('./loginRegister/changeForgot').changePass)
 router.post('/forgotpassword', require('./loginRegister/changeForgot').forgotPass)
 
 //Question Answer Upvote Downvote route
