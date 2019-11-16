@@ -66,8 +66,6 @@ router.post('/getQuestions',tokenVerify, require('./QuestionAnswer/getAllQuestio
 router.post('/getAnsById/:questionId', tokenVerify, require('./QuestionAnswer/ansbyquesId'))
 
 
-// router.post('/profile', require('./loginRegister/profilePic'))
-
 
 
 
