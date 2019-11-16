@@ -1,7 +1,9 @@
 const express = require('express')
 const multer = require('multer')
 const router = express.Router()
-const tokenVerify = require('./loginRegister/tokenVerify')
+const tokenVerify = require('../strategies/tokenVerify')
+const regValidate = require('../validation/registerValidate')
+const logValidate = require('../validation/loginValidate')
 
 
 
@@ -28,7 +30,7 @@ var storage = multer.diskStorage({
 
 // register, login, profile update route
 const register = require('./loginRegister/register')
-router.post('/register', register)
+router.post('/register', regValidate, register)
 
 const emailVerify = require('./loginRegister/emailVerify')
 router.post('/emailVerify', tokenVerify, emailVerify)
@@ -37,7 +39,7 @@ const resend = require('./loginRegister/resend')
 router.post('/resend', tokenVerify, resend)
 
 const login = require('./loginRegister/loginLogout')
-router.post('/login', login.login)
+router.post('/login', logValidate, login.login)
 
 const logout = require('./loginRegister/loginLogout')
 router.post('/logout', tokenVerify, logout.logout)

@@ -52,7 +52,7 @@ exports.changePass = (req, res) => {
 
 // Generate new password
 const generatePass = async() =>{
-    let newPassword = await 'abcd' + Math.floor(Math.random()*10000)
+    let newPassword = await 'Abcd@' + Math.floor(Math.random()*10000)
     return newPassword
 }
 
@@ -69,7 +69,7 @@ exports.forgotPass = (req, res) => {
             msg: 'Please Enter Your Email.'
         })
     }else{
-            dbRegister.findOne({email: req.body.email})
+        dbRegister.findOne({email: req.body.email})
             .then(emailData => {
                 if(!emailData || emailData == null){
                     res.json({
