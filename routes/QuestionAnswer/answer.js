@@ -14,16 +14,24 @@ module.exports = async(req, res) => {
         }else{
             try{
                 let questionData = await dbQuestion.findById(req.params.questionId)
-                console.log(questionData._id)
-                let answerData = await new dbAnswer({
-                    question: questionData._id,
-                    text: req.body.text,
-                    email: loginData.email
-                }).save()
-                res.json({
-                    success: true,
-                    ans: answerData
-                })
+                if(questionData){
+                    console.log(questionData._id)
+                    let answerData = await new dbAnswer({
+                        question: questionData._id,
+                        text: req.body.text,
+                        email: loginData.email
+                    }).save()
+                    res.json({
+                        success: true,
+                        ans: answerData
+                    })
+                }else{
+                    res.json({
+                        success: false,
+                        msg: 'Question not found'
+                    })
+                }
+        
             }catch(err){
                 res.json({
                     success: false,

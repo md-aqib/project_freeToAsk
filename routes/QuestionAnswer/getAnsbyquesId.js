@@ -13,13 +13,21 @@ module.exports = (req, res) => {
                 msg: 'User not logged in'
             })
         }else{
-            dbAns.findOne({question: req.params.questionId})
+            dbAns.find({question: req.params.questionId})
             .then(answers => {
-                res.json({
-                    success: false,
-                    msg: 'All the answers of given Question Id',
-                    ans: answers
-                })
+                console.log(answers)
+                if(!answers || answers == null){
+                    res.json({
+                        success: false,
+                        msg: 'Answer not found'
+                    })
+                }else{
+                    res.json({
+                        success: true,
+                        msg: 'All the answers of given Question Id',
+                        ans: answers
+                    })
+                }
             })
             .catch(err => {
                 res.json({

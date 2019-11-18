@@ -18,7 +18,7 @@ exports.upvote = async(req, res) => {
                 if(!ansData || ansData == null){
                     res.json({
                         success: false,
-                        msg: 'DB_ERROR'
+                        msg: 'Answer not found'
                     })
                 }else{
                     if(ansData.downvotes.includes(req.decoded.email)){
@@ -74,7 +74,7 @@ exports.downvote = async(req, res) => {
                 if(!ansData || ansData == null){
                     res.json({
                         success: false,
-                        msg: 'DB_ERROR'
+                        msg: 'Answer not found'
                     })
                 }else{
                     if(ansData.upvotes.includes(req.decoded.email)){

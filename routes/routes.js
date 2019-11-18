@@ -11,7 +11,7 @@ const changePassVali = require('../validation/changePassVali')
 //multer, file upload
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './loginRegister/pictures')
+      cb(null, './routes/loginRegister/pictures/')
     },
     filename: function (req, file, cb) {
       cb(null, 'img' + Date.now() + '' + file.originalname)
@@ -25,7 +25,6 @@ var storage = multer.diskStorage({
         res.send('file uploaded')
     })
   })
-
 
 
 
@@ -64,7 +63,7 @@ router.post('/downvotes/:answerId', tokenVerify, require('./QuestionAnswer/upDow
 
 //Get APIs
 router.post('/getQuestions',tokenVerify, require('./QuestionAnswer/getAllQuestions'))
-router.post('/getAnsById/:questionId', tokenVerify, require('./QuestionAnswer/ansbyquesId'))
+router.post('/getAnsById/:questionId', tokenVerify, require('./QuestionAnswer/getAnsbyquesId'))
 
 
 
