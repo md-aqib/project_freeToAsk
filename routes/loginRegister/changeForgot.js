@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt')
 const saltRound = 8
 
 
-// //change password API
+
+//change password API
 exports.changePass = (req, res) => {
     if(!req.body.newPass || !req.body.oldPass){
         res.json({
@@ -15,22 +16,33 @@ exports.changePass = (req, res) => {
     }else{
         dbRegister.findOne({email: req.decoded.email})
         .then(data => {
-            
             if(data.password == req.body.oldPass){
-                dbLogin.findOneAndUpdate({email: req.decoded.email}, {$set: {'password': req.body.newPass }})
-                .then(updatedData => {
-                    console.log(updatedData)
-                    res.json({
-                        success: true,
-                        msg: 'new password updated'
+                //hash password
+                const hashPass = async() => {
+                    let hash = await bcrypt.hash(req.body.newPass, saltRound)
+                    return hash
+                }
+                hashPass()
+                .then(hashed => {
+                    dbLogin.findOneAndUpdate({email: req.decoded.email}, {$set: {'password': hashed}})
+                    .then(hashUpdated => {
+                        dbRegister.findOneAndUpdate({email: req.decoded.email}, {$set: {password: req.body.newPass}})
+                        .then(passUpdated => {
+                            res.json({
+                                success: true,
+                                msg: 'new password updated'
+                            })
+                        })
+                        .catch(err => console.log(err))
+                    })
+                    .catch(err => {
+                        res.json({
+                            success: false,
+                            msg: 'error in update'
+                        })
                     })
                 })
-                .catch(err => {
-                    res.json({
-                        success: false,
-                        msg: 'error in update'
-                    })
-                })
+                .catch(err => console.log(err))
             }else{
                 res.json({
                     success: false,
@@ -49,17 +61,11 @@ exports.changePass = (req, res) => {
 }
 
 
-
 // Generate new password
 const generatePass = async() =>{
     let newPassword = await 'Abcd@' + Math.floor(Math.random()*10000)
     return newPassword
 }
-
-
-
-
-
 
 //forgot password API
 exports.forgotPass = (req, res) => {
@@ -89,7 +95,7 @@ exports.forgotPass = (req, res) => {
                                 dbLogin.findOneAndUpdate({email: req.body.email}, {$set: {'password': hashed}})
                                 .then(update => {
                                     if(update){
-                                        dbLogin.findOne({email: req.body.email})
+                                        dbRegister.findOneAndUpdate({email: req.body.email}, {$set: {password: generatedPass}})
                                         .then(updated => {
                                             mailer.sendMails(req.body.email, 'Your New Password is:', generatedPass)
                                                 res.json({
