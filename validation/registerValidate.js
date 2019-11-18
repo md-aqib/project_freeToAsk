@@ -1,4 +1,5 @@
-const regex = require('../strategies/regex')
+
+const regex = require('../common/regex')
 
 
 module.exports = (req, res, next) => {

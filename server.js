@@ -4,11 +4,6 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const myURL = require('./config/myURL')
 const routes = require('./routes/routes')
-
-
-
-
-
 const app = express()
 
 //Middleware for bodyparser
@@ -30,7 +25,13 @@ mongoose
 var secret = myURL.secret
 app.set('secretKey', secret)
 
+//templating engine
+app.set('view engine', 'ejs')
+
+//logging APIs
 app.use(morgan('dev'))
+
+//routes
 app.use('/api', routes)
 
 

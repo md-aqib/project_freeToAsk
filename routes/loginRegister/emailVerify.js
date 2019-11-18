@@ -2,6 +2,8 @@ const dbRegister = require('../../models/register')
 const dbLogin = require('../../models/userLogin')
 const dbProfile = require('../../models/profile')
 const nodeMailer = require('../emailSmsModule/nodemailer')
+const emailData = require('../../common/emailData')
+const ejs = require('ejs')
 const bcrypt = require('bcrypt')
 const saltRounds = 8
 
@@ -47,18 +49,23 @@ module.exports = (req, res) => {
                         .then(profileData => {
                             dbRegister.findOneAndUpdate({email: req.decoded.email}, { $set: { status: 1, 'emailVerify.verified': true, 'emailVerify.verifiedAt': new Date() } })
                             .then(data=> {
-                                nodeMailer.sendMails(data.email, 'User Successfully Registered')
-                                res.json({
-                                    success: true,
-                                    msg: 'user Successfully registered'
+                                let emailObj = emailData.welcomeEmail(data.name)
+                                ejs.renderFile('./views/index.ejs', emailObj, (err, html) => {
+                                    if(err){
+                                        res.json({
+                                            success: false
+                                        })
+                                    }else{
+                                        let subject = 'welcome to Aqibweb'
+                                        nodeMailer.sendMails(data.email, subject , html)
+                                        res.json({
+                                            success: true,
+                                            msg: 'user Successfully registered'
+                                        })
+                                    }
                                 })
                             })
-                            .catch(err =>
-                                res.json({
-                                    success: false,
-                                    msg: 'something went wrong',
-                                    err : err
-                                }))
+                            .catch(err => console.log(err))
                         })
                         .catch(err => console.log(err))
                     })
