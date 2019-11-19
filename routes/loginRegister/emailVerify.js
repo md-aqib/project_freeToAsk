@@ -50,10 +50,11 @@ module.exports = (req, res) => {
                             dbRegister.findOneAndUpdate({email: req.decoded.email}, { $set: { status: 1, 'emailVerify.verified': true, 'emailVerify.verifiedAt': new Date() } })
                             .then(data=> {
                                 let emailObj = emailData.welcomeEmail(data.name)
-                                ejs.renderFile('./views/index.ejs', emailObj, (err, html) => {
+                                ejs.renderFile('./views/basic.ejs', emailObj, (err, html) => {
                                     if(err){
                                         res.json({
-                                            success: false
+                                            success: false,
+                                            err: err
                                         })
                                     }else{
                                         let subject = 'welcome to Aqibweb'
