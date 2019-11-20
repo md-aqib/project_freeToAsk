@@ -9,12 +9,12 @@ var generateOTP = () => {
 }
 
 module.exports = (req, res) => {
-    dbRegister.findOne({email: req.body.email, userName: req.body.userName})
+    dbRegister.find({$or: [{email: req.body.email, userName: req.body.userName}]})
     .then(data => {
         if(data){
             res.json({
                 success: true,
-                msg: 'User already registered'
+                msg: 'User name or Eamil already registered'
             })
         }else{
             if(!req.body.name || !req.body.email || !req.body.userName || !req.body.phone || !req.body.password){

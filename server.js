@@ -33,7 +33,7 @@ app.set('view engine', 'ejs')
 
 //logging APIs
 app.use(morgan('dev'))
-//EJS check on browser
+//EJS check, on browser
 let emailObj = emailData.welcomeEmail('abcd')
 app.get('/render', (req, res) => {
   res.render('basic',emailObj)

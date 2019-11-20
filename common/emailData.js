@@ -5,7 +5,7 @@ let sign = `Regards,Team Aqib`;
 exports.welcomeEmail = (name) => {
     return {
         heading: `Welcome!`,
-        greet: `Hi ${name},`,
+        greeting: `Hi ${name},`,
         body: `Thank you for choosing Us.
         Your account is all set and is ready for use. Please login with the registered credentials.
         We are always there to help you.`,
