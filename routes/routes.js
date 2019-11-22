@@ -11,20 +11,13 @@ const changePassVali = require('../validation/changePassVali')
 //multer, file upload
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './routes/loginRegister/profilePic')
+      cb(null, './routes/loginRegister/pictures')
     },
     filename: function (req, file, cb) {
       cb(null, 'img' + Date.now() + '' + file.originalname)
     }
   })
-  var upload = multer({ storage: storage }).single('avatar')
-
-  router.post('/profile', tokenVerify, function (req, res, next) {
-    upload(req, res, (err) => {
-        if(err) console.log(err)
-        res.send('file uploaded')
-    })
-  })
+  var upload = multer({ storage: storage })
 
 
 
@@ -44,8 +37,9 @@ router.post('/login', logValidate, login.login)
 const logout = require('./loginRegister/loginLogout')
 router.post('/logout', tokenVerify, logout.logout)
 
+var cpUpload = upload.fields([{ name: 'profilePicture', maxCount: 1 }, { name: 'gallery', maxCount: 8 }])
 const profile = require('./loginRegister/updateProfile')
-router.put('/profileUpdate', tokenVerify, profile)
+router.put('/profileUpdate', tokenVerify, cpUpload, profile)
 
 const profileData = require('./loginRegister/profileData')
 router.post('/profileData', tokenVerify, profileData)

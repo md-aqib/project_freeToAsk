@@ -19,6 +19,7 @@ module.exports = (req, res) => {
                     })
                 }else{
                     const object = { 
+                                    profilePic: req.files['profilePicture'][0].fieldname + '.' + req.files['profilePicture'][0].mimetype,
                                     bio: req.body.bio,
                                     userType: req.body.userType,
                                     portfolio: req.body.portfolio,
@@ -42,13 +43,7 @@ module.exports = (req, res) => {
                     .catch(err => console.log(err))
                 }
             })
-            .catch(err => {
-                res.json({
-                    success: false,
-                    msg: 'Profile Data not Found, Please try again',
-                    err: err
-                })
-            })
+            .catch(err => console.log(err))
         }
     })
     .catch(err => {

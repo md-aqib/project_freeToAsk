@@ -16,9 +16,7 @@ const profile = new Schema({
     bio: String,
     name: String,
     email: String,
-    profilePic: {
-        type: String
-    },
+    profilePic: String,
     userType: {
         type: String,
         enum: ['student', 'working'],
