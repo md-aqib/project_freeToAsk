@@ -38,17 +38,17 @@
     </div>
 
     <div style="padding: 50px; margin-right: 400px; margin-top: 40px;">
-      <form action="/">
+      <form method="POST" action="/api/register">
         <div class="title">
           <i class="fas fa-pencil-alt"></i>
           <h2 class="form-heading">Register here</h2>
         </div>
         <div class="info">
           <input class="fname" type="text" name="name" placeholder="Full name">
-          <input type="text" name="name" placeholder="Email">
-          <input type="text" name="name" placeholder="User Name">
-          <input type="text" name="name" placeholder="Phone number">
-          <input type="password" name="name" placeholder="Password">
+          <input type="email" email="email" placeholder="Email">
+          <input type="userName" userName="userName" placeholder="User Name">
+          <input type="phone" phone="phone" placeholder="Phone number">
+          <input type="password" password="password" placeholder="Password">
           
           <select>
             <option value="course-type" selected>User type*</option>
