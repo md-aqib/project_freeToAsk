@@ -38,6 +38,8 @@ let emailObj = emailData.welcomeEmail('abcd')
 app.get('/render', (req, res) => {
   res.render('basic',emailObj)
 })
+//frontend
+app.use(express.static('static'))
 //routes
 app.use('/api', routes)
 
