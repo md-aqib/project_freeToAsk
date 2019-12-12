@@ -4,7 +4,7 @@ const dbLogin = require('../../models/userLogin')
 
 
 //upvote API
-exports.upvote = async(req, res) => {
+exports.upvote = async(req, res, next) => {
     try{
         let emailData = await dbLogin.findOne({email: req.decoded.email})
         if(!emailData || emailData == null){
@@ -44,16 +44,12 @@ exports.upvote = async(req, res) => {
                     }
                 }
             } catch(err){
-                console.log(err)
+                next(err)
             }
         }
       
     }catch(err){
-        res.json({
-            success: false,
-            msg: 'server error',
-            err: err
-        })
+        next(err)
     }
  
 }
@@ -100,15 +96,11 @@ exports.downvote = async(req, res) => {
                     }
                 }
             } catch(err){
-                console.log(err)
+                next(err)
             }
         }
     } 
      catch(err) {
-        res.json({
-            success: false,
-            msg: 'server err',
-            err: err
-        })
+        next(err)
     }
 }
